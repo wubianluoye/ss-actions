@@ -38,6 +38,6 @@ jobs:
           password: ${{ secrets.MAILPASSWORD }}
           subject: SSR获取
           body: file://result.txt
-          to: 575784835@qq.com
+          to: 575784835@qq.com,xinyangweb@126.com
           from: GitHub Actions
           content_type: text/plain
