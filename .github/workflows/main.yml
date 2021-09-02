@@ -22,13 +22,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      - name: Install Python packages
-        run:  pip install -r requirements.txt
+      - name: Install Python Packages
+        run:  pip install -r ./requirements.txt
           
-      - name: Run script
+      - name: Run Script
         run: python ./run.py
 
-      - name: 'Send mail'
+      - name: 'Send Email'
         uses: dawidd6/action-send-mail@master
         with:
           serveraddress: smtp.163.com
