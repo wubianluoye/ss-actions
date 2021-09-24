@@ -11,13 +11,17 @@ config = {
   'timeout': 30
 }
 
+cry_times = 0
 
 def init():
+  global cry_times
+  cry_times+=1
+  
   res = requests.get(config['url'], headers=config['headers'])
   res.encoding='utf-8'
   print('http status: ', res.status_code)
-  if res.status_code != 200:
-    print('reinit')
+  if res.status_code != 200 and cry_times < 3:
+    print('reinit', cry_times)
     return init()
   
   html = BeautifulSoup(res.text, 'html.parser')
