@@ -1,4 +1,4 @@
-# ss-actions
+# ss-actions[2021-12-23]
 ### 通过github自带的actions定时发送邮件
 
 #### 记得将北京时间转换为国际时间
