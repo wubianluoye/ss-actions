@@ -56,7 +56,10 @@ def wirte_file(SSRs):
     # 重写文件
     with open('README.md', 'w', encoding='utf-8') as wf:
       wf.write(str)
+  
+  print('update README.md')
 
 
 if __name__ == '__main__':
   init()
+  update_readme()
