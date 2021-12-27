@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: GET SSR
 
 # Controls when the workflow will run
@@ -41,14 +39,3 @@ jobs:
           to: 575784835@qq.com,xinyangweb@126.com
           from: GitHub Actions
           content_type: text/plain
-
-      - name: Commit and push 
-        run: |
-          git config --local user.email "575784835@qq.com"
-          git config --local user.name "wubianluoye"
-          git add README.md
-          git commit -m "Github Action Auto Commit"
-      - name: Push
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
