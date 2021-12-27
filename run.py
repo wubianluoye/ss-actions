@@ -1,9 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import os
-import re
-import time
-
 
 config = {
   'url': 'https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7',
@@ -45,21 +42,5 @@ def wirte_file(SSRs):
 
   print('write file ok')
 
- # 更新文件
- def update_readme():
-  # 获取当前日期
-  date = time.strftime('%Y-%m-%d',time.localtime())
-
-  with open('README.md','r', encoding='utf-8') as f:
-    str = f.read()
-    str = re.sub(r'\d{4}-\d{2}-\d{2}', date, str)
-    # 重写文件
-    with open('README.md', 'w', encoding='utf-8') as wf:
-      wf.write(str)
-  
-  print('update README.md')
-
-
 if __name__ == '__main__':
   init()
-  update_readme()
