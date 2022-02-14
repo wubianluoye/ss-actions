@@ -11,4 +11,4 @@
 
 [Send mail Github Action](https://github.com/dawidd6/action-send-mail)
 
-更新时间：2022-01-24
+更新时间：2022-02-14
