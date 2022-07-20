@@ -1,3 +1,4 @@
+from functools import cache
 import requests
 from bs4 import BeautifulSoup
 import os
@@ -15,45 +16,58 @@ cry_times=0
 def get_SSR():
   global cry_times
   cry_times+=1
-  
-  res = requests.get(config['url'], headers=config['headers'])
-  res.encoding = 'utf-8'
-  print('get SSR http status: ', res.status_code)
-  if res.status_code != 200 and cry_times < 3:
-    print('reinit SSR:', cry_times)
-    return get_SSR()
-  
-  html=BeautifulSoup(res.text, 'html.parser')
-  SSRs=html.find(string='SSR链接：').parent.parent
+  try:
+    res = requests.get(config['url'], headers=config['headers'])
+    res.encoding = 'utf-8'
+    print('get SSR http status: ', res.status_code)
+    print(res)
+    if res.status_code != 200 and cry_times < 3:
+      print('reinit SSR:', cry_times)
+      return get_SSR()
+    
+    html=BeautifulSoup(res.text, 'html.parser')
+    SSRs=html.find(string='SSR链接：').parent.parent
 
-  str=''
-  for item in SSRs.next_siblings:
-    if 'ssr://' in item.text or 'ss://' in item.text:
-      str+=item.text+'\n'
+    str=''
+    for item in SSRs.next_siblings:
+      if 'ssr://' in item.text or 'ss://' in item.text:
+        str+=item.text+'\n'
+      else:
+        continue
+    return str
+  except:
+    print('get_SSR request error:', cry_times)
+    if cry_times < 3:
+      return get_SSR()
     else:
-      continue
-  return str
-
+      return ''
 
 vmess_time=0
 def get_vmess():
   global vmess_time
   vmess_time+=1
   vmess=''
-  res=requests.get(config['url2'], headers=config['headers'])
-  res.encoding='utf-8'
-  print('get vmess http status: ', res.status_code)
-  if res.status_code != 200 and vmess_time < 3:
-    print('reinit vmess: ', vmess_time)
-    return get_vmess()
+  try:
+    res=requests.get(config['url2'], headers=config['headers'])
+    res.encoding='utf-8'
+    print('get vmess http status: ', res.status_code)
+    if res.status_code != 200 and vmess_time < 3:
+      print('reinit vmess: ', vmess_time)
+      return get_vmess()
 
-  html=BeautifulSoup(res.text, 'html.parser')
-  start=html.find(string='现在客户端很多都支持URL直接导入vmess链接，复制粘贴即可。').parent
-  for item in start.next_siblings:
-    if '果想搭建自己的v2ray节点' in item.text:
-      break
-    vmess+=item.text+'\n'
-  return vmess
+    html=BeautifulSoup(res.text, 'html.parser')
+    start=html.find(string='现在客户端很多都支持URL直接导入vmess链接，复制粘贴即可。').parent
+    for item in start.next_siblings:
+      if '果想搭建自己的v2ray节点' in item.text:
+        break
+      vmess+=item.text+'\n'
+    return vmess
+  except:
+    print('get_vmess request error:', vmess_time)
+    if vmess_time < 3:
+      return get_vmess()
+    else:
+      return ''
 
 def wirte_file(str):
   if os.path.exists('./result.txt'):
