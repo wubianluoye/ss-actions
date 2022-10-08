@@ -19,21 +19,24 @@ def get_SSR():
     res = requests.get(config['url'], headers=config['headers'])
     res.encoding = 'utf-8'
     print('get SSR http status: ', res.status_code)
-    print(res)
     if res.status_code != 200 and cry_times < 3:
       print('reinit SSR:', cry_times)
       return get_SSR()
     
     html=BeautifulSoup(res.text, 'html.parser')
-    SSRs=html.find(string='SSR链接：').parent.parent
+    SSRs=html.select('#wiki-body > div > hr:nth-child(16)')[0]
 
-    str=''
-    for item in SSRs.next_siblings:
-      if 'ssr://' in item.text or 'ss://' in item.text:
-        str+=item.text+'\n'
+    el_str = ''
+    for ele in SSRs.next_siblings:
+      if str(ele) == '<hr/>':
+        break
+
+      if 'ssr://' in ele.text or 'ss://' in ele.text:
+        el_str+=ele.text+'\n\n'
       else:
         continue
-    return str
+
+    return el_str
   except:
     print('get_SSR request error:', cry_times)
     if cry_times < 3:
